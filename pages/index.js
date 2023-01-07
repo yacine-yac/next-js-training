@@ -20,7 +20,10 @@ export default function Home() {
     <>
      <h1>Hello Next Js</h1>
        <button onClick={handler}>Log out</button>
+       <hr/>
        <Link href='/about'>About</Link>
+       <hr/>
+       <Link href='/posts'>Posts</Link>
     </>
   )
 }
