@@ -1,7 +1,7 @@
 import UserListed from "../../components/userListed";
 
 export default function AllUsers({users}){
-    console.log("users",users);
+    // console.log("users",users);
     return <> <h1>hi users</h1>
     
     {users.map((item,y) => {
