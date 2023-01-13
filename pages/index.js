@@ -24,6 +24,9 @@ export default function Home() {
        <Link href='/about'>About</Link>
        <hr/>
        <Link href='/posts'>Posts</Link>
+       <hr/>
+       <hr/>
+       <Link href='/comments'>Comments</Link>
     </>
   )
 }
