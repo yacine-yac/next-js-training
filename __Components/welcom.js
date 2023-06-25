@@ -3,18 +3,23 @@ import { useRouter } from "next/router";
 import { signIn,signOut } from "next-auth/react";
 import { useState } from "react";
 export default function Welcom(){
-    const [{email,password},setInputs]=useState({email:null,password:null});
-    const {query}=useRouter();
+    const router=useRouter();
+    const [{email,password,errorMessage},setInputs]=useState({email:null,password:null,errorMessage:null});
     const gitAuth=(e)=>{ e.stopPropagation();signIn("github");console.log('github') }
     const credAuth=(e)=>{
         console.log(email)
         e.preventDefault();
         e.stopPropagation();
-        signIn('credentials',{email,password, callbackUrl:"/about",redirect:false});
+        signIn('credentials',{email,password, callbackUrl:"/about",redirect:false})
+         .then(({error,ok,url})=>{
+            ok ? router.push("/about")
+               :setInputs(inputs=>{return {...inputs,errorMessage:error}})
+            
+         }).catch(y=>console.log(y,'ssssssssss'));
     }
-    console.log(email,password)
-    const setEmail=(e)=>{setInputs(inp=>{return {...inp,email:e.target.value} })}
-    const setPassword=(e)=>{setInputs(inp=>{return {...inp,password:e.target.value} })}
+    console.log(email,password,errorMessage)
+    const setEmail=(e)=>{setInputs(inp=>{return {...inp,email:e.target.value!="" ? e.target.value : null } })}
+    const setPassword=(e)=>{setInputs(inp=>{return {...inp,password:e.target.value!= "" ? e.target.value : null} })}
 
     return <>
       <h1>Welcom to our Authentication training</h1>
@@ -40,7 +45,7 @@ export default function Welcom(){
                     </form>
             </div>
             <span className="message"><a href="">Forget password ?</a></span>
-           {query?.error && <div> {query.error } </div>} 
+           {errorMessage && <h1 > {errorMessage } </h1>} 
 </div>
     </>
 }

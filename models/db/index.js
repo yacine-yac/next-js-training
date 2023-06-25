@@ -5,9 +5,9 @@ const dbConfig={
             database:"sql7628162", 
             port:3306
 }
-
+const mysql=require('mysql');
 const database=async()=>{
-    const mysql=require('mysql');
+    
     const db=await  mysql.createConnection(dbConfig);
      db.connect(err=>{
       console.log( err ? 'failed database connection' : "connnnected",err)
@@ -16,6 +16,7 @@ const database=async()=>{
   }
 export const queryHandler= async(q)=>{
             const db=await database();
+             console.log("daaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaata",db);
             const promise=new Promise((resolve,reject)=>{
                       const query=db.query(q,(err,result)=>{
                                             result && resolve(result);
@@ -24,6 +25,10 @@ export const queryHandler= async(q)=>{
                                 });
                                   return query;
             });
-            return  promise.then(x=>{ return {status:true,data:x}}).catch(y=>{ return {status:false,error:y}})
+            return  promise.then(x=>{
+                         return {status:x.length>0 ? true : flase ,data:x};
+                    }).catch(y=>{ 
+                         return {status:false,error:y};
+                    })
 }
 
